@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CTC Risk Register</title>
+<style>
+body{font-family:Segoe UI,Arial;background:#f4f6f9;margin:20px}h1{color:#1f3a5f} .cards{display:flex;gap:15px;margin-bottom:15px}.card{background:#fff;padding:15px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.form{background:#fff;padding:15px;border-radius:8px;margin-bottom:15px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}input,select{padding:8px;width:100%}button{padding:8px 12px;margin-right:5px}.wrap{overflow:auto}.table{min-width:2200px;width:100%;border-collapse:collapse;background:#fff}th,td{border:1px solid #ddd;padding:6px}th{background:#1f3a5f;color:#fff;position:sticky;top:0}
+</style></head><body>
+<h1>CTC Risk Register</h1>
+<div class="cards"><div class="card">Open Risks <h2 id="open">0</h2></div><div class="card">Closed Risks <h2 id="closed">0</h2></div><div class="card">High Risks <h2 id="high">0</h2></div></div>
+<div class="form"><div class="grid">
+<input id="projectId" placeholder="Project ID"><input id="projectName" placeholder="Project Name"><input id="riskNo" placeholder="Risk No"><input id="logBy" placeholder="Log By">
+<input id="date" type="date"><input id="endDate" type="date"><select id="priority"><option>High</option><option>Medium</option><option>Low</option></select><input id="owner" placeholder="Assigned To">
+<input id="desc" placeholder="Risk Description"><input id="impact" placeholder="Impact Analysis"><select id="status"><option>Open</option><option>Monitor</option><option>Activate</option><option>Closed</option></select><input id="mitigation" placeholder="Mitigation Plan / Update">
+<select id="industry"><option>FSI</option><option>GGnT</option><option>CommH</option></select><select id="ptype"><option>Refresh</option><option>Relocation</option><option>Greenfield</option><option>Migration</option></select>
+<select id="platform" multiple size="5"><option>UNIX</option><option>Wintel</option><option>Firewall</option><option>Switch</option><option>CyberSecurity</option><option>UC</option></select>
+</div><br><button onclick="addRisk()">Add / Save Risk</button></div>
+<div class="wrap"><table class="table"><thead><tr><th>Risk No</th><th>Project ID</th><th>Project Name</th><th>Date</th><th>Log By</th><th>Risk Description</th><th>Risk Level</th><th>Impact Analysis</th><th>Risk End Date</th><th>Assigned To</th><th>Status</th><th>Mitigation Plan / Update</th><th>Industry</th><th>Type of Project</th><th>Platform</th><th>Action</th></tr></thead><tbody id="tb"></tbody></table></div>
+<script>
+let editIndex=-1;
+let risks=[{riskNo:'R001',projectId:'JLAND',projectName:'JLAND HQ',date:'2026-10-20',logBy:'Hapizie',desc:'Site readiness delay',priority:'High',impact:'Installation delay',endDate:'',owner:'GEON',status:'Open',mitigation:'Weekly review',industry:'CommH',ptype:'Greenfield',platform:'Switch,Firewall'}];
+function render(){let b=document.getElementById('tb');b.innerHTML='';risks.forEach((r,i)=>{b.innerHTML+=`<tr><td>${r.riskNo}</td><td>${r.projectId}</td><td>${r.projectName}</td><td>${r.date}</td><td>${r.logBy}</td><td>${r.desc}</td><td>${r.priority}</td><td>${r.impact}</td><td>${r.endDate}</td><td>${r.owner}</td><td>${r.status}</td><td>${r.mitigation}</td><td>${r.industry}</td><td>${r.ptype}</td><td>${r.platform}</td><td><button onclick='editRisk(${i})'>Edit</button><button onclick='deleteRisk(${i})'>Delete</button></td></tr>`});document.getElementById('open').textContent=risks.filter(x=>x.status==='Open').length;document.getElementById('closed').textContent=risks.filter(x=>x.status==='Closed').length;document.getElementById('high').textContent=risks.filter(x=>x.priority==='High').length;}
+function getPlatforms(){return [...document.getElementById('platform').selectedOptions].map(o=>o.value).join(',');}
+function addRisk(){let r={riskNo:riskNo.value,projectId:projectId.value,projectName:projectName.value,date:date.value,logBy:logBy.value,desc:desc.value,priority:priority.value,impact:impact.value,endDate:endDate.value,owner:owner.value,status:status.value,mitigation:mitigation.value,industry:industry.value,ptype:ptype.value,platform:getPlatforms()}; if(editIndex>-1){risks[editIndex]=r;editIndex=-1;} else {risks.push(r);} render();}
+function editRisk(i){let r=risks[i];editIndex=i;projectId.value=r.projectId;projectName.value=r.projectName;riskNo.value=r.riskNo;logBy.value=r.logBy;date.value=r.date;endDate.value=r.endDate;priority.value=r.priority;owner.value=r.owner;desc.value=r.desc;impact.value=r.impact;status.value=r.status;mitigation.value=r.mitigation;industry.value=r.industry;ptype.value=r.ptype;}
+function deleteRisk(i){risks.splice(i,1);render();}
+render();
+</script></body></html>
