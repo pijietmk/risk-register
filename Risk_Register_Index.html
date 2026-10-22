@@ -1,0 +1,41 @@
+
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Risk Register</title>
+<style>body{font-family:Segoe UI;margin:20px;background:#f4f6f9}h1{color:#1f3a5f}.toolbar,.form{background:#fff;padding:12px;border-radius:8px;margin-bottom:12px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #ddd;padding:6px}th{background:#1f3a5f;color:#fff;position:sticky;top:0} .wrap{overflow:auto;max-height:70vh} input,select{padding:6px;width:100%} .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.multi{height:90px}</style>
+</head><body>
+<h1>Risk Register</h1>
+<div class=form><div class=grid>
+<input id=riskno placeholder='Risk No'>
+<input id=logby placeholder='Log By'>
+<input id=date type=date>
+<select id=priority><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select>
+<input id=desc placeholder='Risk Description'>
+<input id=impact placeholder='Impact Analysis'>
+<input id=owner placeholder='Assigned To'>
+<select id=status><option>Open</option><option>Monitor</option><option>Activate</option><option>Closed</option></select>
+<input id=enddate type=date>
+<input id=mitigation placeholder='Mitigation Plan / Update'>
+<select id=industry><option>FSI</option><option>GGnT</option><option>CommH</option></select>
+<select id=ptype><option>Refresh</option><option>Relocation</option><option>Greenfield</option><option>Migration</option></select>
+<select id=platform multiple class='multi'>
+<option>UNIX</option><option>Wintel</option><option>Firewall</option><option>Switch</option><option>CyberSecurity</option><option>UC</option></select>
+</div><br><button onclick='addRisk()'>Add Risk</button></div>
+<div class=wrap><table id=t><thead><tr><th>Risk No</th><th>Date</th><th>Log By</th><th>Risk Description</th><th>Risk Priority</th><th>Impact Analysis</th><th>Risk End Date</th><th>Assigned To</th><th>Status</th><th>Mitigation Plan / Update</th><th>Industry</th><th>Type of Project</th><th>Platform</th></tr></thead><tbody></tbody></table></div>
+<script>
+let risks=[
+['R001','2026-10-20','Hapizie','Hardware delivery delay','High','Project schedule delay due to inability to proceed with installation activities.','','Purchaser','Open','Monitor vendor delivery status and maintain contingency stock where possible.','CommH','Greenfield','Switch / Firewall'],
+['R002','2026-10-20','Hapizie','Site readiness delay due to ongoing renovation activities','Critical','Installation, testing, and commissioning activities cannot commence as planned.','','Main Contractor','Open','Conduct weekly site readiness review and escalate delays.','CommH','Greenfield','Switch / Firewall'],
+['R003','2026-10-20','Hapizie','Incoming power source unavailable','Critical','Equipment cannot be powered on for testing and production deployment.','','End User','Open','Closely monitor power readiness milestones.','CommH','Greenfield','Switch / Firewall'],
+['R004','2026-10-20','Hapizie','ISP service provisioning delay','Critical','UAT and go-live activities postponed.','','End User','Open','Closely monitor ISP readiness milestones.','CommH','Greenfield','Firewall / Switch'],
+['R005','2026-10-20','Hapizie','Structured cabling not completed on time','High','Delay in hardware installation and commissioning activities.','','Vendor','Open','Track cabling progress and perform periodic inspections.','CommH','Greenfield','Switch / Firewall'],
+['R006','2026-10-20','Hapizie','Vendor resource unavailable during cutover','Medium','Project delay and increased implementation risk.','','Vendor','Open','Obtain resource commitment in writing.','CommH','Greenfield','Switch / Firewall'],
+['R007','2026-10-20','Hapizie','Firewall misconfiguration during migration','High','Application and user connectivity disruption.','','Network Team','Open','Peer review firewall policies before implementation.','GGnT','Migration','UNIX / Wintel'],
+['R008','2026-10-20','Hapizie','Core switch configuration error','High','Network outage affecting multiple business services.','','Network Team','Open','Peer review switch configuration before implementation.','GGnT','Migration','UNIX / Wintel'],
+['R009','2026-10-20','Hapizie','VM migration failure','Critical','Production applications become unavailable.','','Network Team','Open','Conduct pilot migration and maintain rollback plan.','GGnT','Migration','UNIX / Wintel'],
+['R010','2026-10-20','Hapizie','Storage capacity shortage','High','New workloads cannot be provisioned.','','Network Team','Open','Capacity planning and storage growth forecasting.','GGnT','Migration','UNIX / Wintel'],
+['R011','2026-10-20','Hapizie','Backup failure prior to migration','Critical','Data loss in event of rollback requirement.','','Network Team','Open','Verify backup and restoration procedures.','GGnT','Migration','UNIX / Wintel'],
+['R012','2026-10-20','Hapizie','Disaster Recovery replication issue','High','DR environment not synchronized with production.','','Network Team','Open','Perform periodic DR testing.','GGnT','Migration','UNIX / Wintel'],
+['R013','2026-10-20','Hapizie','DNS migration issue','High','Applications inaccessible following cutover.','','Network Team','Open','Validate DNS records prior to migration.','GGnT','Migration','UNIX / Wintel']];
+function render(){let b=document.querySelector('tbody');b.innerHTML='';risks.forEach(r=>{let tr='<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>';b.innerHTML+=tr})}
+function addRisk(){let p=[...document.getElementById('platform').selectedOptions].map(o=>o.value).join(' / ');risks.push([riskno.value,date.value,logby.value,desc.value,priority.value,impact.value,enddate.value,owner.value,status.value,mitigation.value,industry.value,ptype.value,p]);render();}
+render();
+</script></body></html>
